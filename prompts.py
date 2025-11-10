@@ -23,10 +23,10 @@ FEW_SHOT = """
 User: What tables do we have?
 THOUGHT: I should check which tables exist in the database.
 ACTION: list_tables{}
-OBSERVATION: ["sample"]
+OBSERVATION: ["Table 1", "Table 2", "Table 3"]
 
 THOUGHT: I now know the tables in the database.
-FINAL ANSWER: The database contains one table named 'sample'.
+FINAL ANSWER: The database contains 3 tables named 'Table 1', 'Table 2', and "Table 3.
 ---
 
 User: What columns does the sample table have?
@@ -37,19 +37,19 @@ OBSERVATION: {"columns": ["id", "first_name", "last_name", "email", "gender", "c
 THOUGHT: I now know the structure of the 'sample' table.
 FINAL ANSWER: The 'sample' table has the following columns — id, first_name, last_name, email, gender, city, mobile, car, credit_card, and favourite_movie.
 ---
-User: How many men are in the database?
+User: How many women are in the database?
 THOUGHT: I need to check the tables in the database first.
 ACTION: list_tables{}
 OBSERVATION: ["sample","emp"]
 THOUGHT: I should check the schema of the 'sample' table to see if it has a gender column.
 ACTION: describe_table{"table_name": "sample"}
 OBSERVATION: {"columns": ["id", "first_name", "last_name", "email", "gender", "city", "mobile", "car", "credit_card", "favourite_movie"]}
-THOUGHT: I can now run a query to count the number of men in the 'sample' table.
-ACTION: query_database{"query": "SELECT COUNT(*) AS male_count FROM sample WHERE gender = 'Male';"}
-OBSERVATION: {"columns": ["male_count"], "rows": [[x]], "row_count": 1}  
+THOUGHT: I can now run a query to count the number of women in the 'sample' table.
+ACTION: query_database{"query": "SELECT COUNT(*) AS female_count FROM sample WHERE gender = 'Feale';"}
+OBSERVATION: {"columns": ["female_count"], "rows": [[x]], "row_count": 1}  
 
-THOUGHT: I have the result for the number of men.
-FINAL ANSWER: There are x men in the database.
+THOUGHT: I have the result for the number of women.
+FINAL ANSWER: There are x women in the database.
 ---
 User: How many rows are in the sample table?
 THOUGHT: I can count the number of rows by running a SELECT COUNT(*) query.

@@ -127,7 +127,9 @@ class SQLAgent:
         ReAct loop with mild safety — allows FINAL ANSWER if evidence exists.
         Only warns if the answer clearly contradicts tool results.
         """
+        
         for step in range(self.step_limit):
+            step_start_len = len(self.history_blocks)
             prompt = build_prompt(
                 tool_docs=self.registry.get_tool_descriptions(),
                 history_blocks=self.history_blocks,
@@ -141,22 +143,27 @@ class SQLAgent:
             # ✅ Check for FINAL ANSWER
             final = extract_section(llm_out, "FINAL ANSWER")
             if final:
-                # Allow FINAL ANSWER if *some* evidence exists
+                # ✅ Require at least one evidence step in total
                 if not self.history_blocks:
-                    # no prior observations at all
-                    obs = ("You are answering without running any tool yet. "
-                        "Please first gather evidence using one ACTION.")
+                    obs = (
+                        "You are answering without running any tool yet. "
+                        "Please gather evidence using one ACTION before concluding."
+                    )
                     self.history_blocks.append(
                         f"THOUGHT: {thought or '(none)'}\nACTION: N/A\nOBSERVATION: {obs}"
                     )
                     continue
 
-                # ✅ Light validation (only strong mismatches)
+                # 🟡 Warn if no new evidence in this turn
+                if not self._has_fresh_evidence_this_turn(step_start_len):
+                    print(f"\033[93m[Warning]\033[0m No new evidence gathered this turn before FINAL ANSWER.")
+                
+                # ✅ Accept the final answer (non-blocking)
                 mismatch = self._validate_final_against_evidence(final)
                 if mismatch:
                     print(f"\033[93m[Warning]\033[0m {mismatch}")
-                    # Don’t block; just warn and continue
                 return final
+
 
             # ✅ Parse ACTION
             try:
