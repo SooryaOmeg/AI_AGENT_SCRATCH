@@ -20,7 +20,7 @@ export GEMINI_API_KEY="your-gemini-api-key"
 
 OR
 
--> Create a .env file
+-> Create a .env file <br>
 -> Save your key as GEMINI_API_KEY=<--API_KEY-->
 
 You can get a free API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
@@ -92,4 +92,4 @@ python test_agent.py
 - ✅ Table and column validation
 - ✅ Error recovery and helpful messages
 - ✅ Interactive mode support
-- ✅ Powered by Google Gemini 1.5 Flash
+- ✅ Powered by Google Gemini 2.5 Flash
