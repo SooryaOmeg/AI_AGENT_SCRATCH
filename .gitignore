@@ -16,7 +16,6 @@ __pycache__/
 .env.local
 
 # Documents and assignments
-*.pdf
 *.docx
 *.doc
 *.tmp

@@ -93,3 +93,11 @@ python test_agent.py
 - ✅ Error recovery and helpful messages
 - ✅ Interactive mode support
 - ✅ Powered by Google Gemini 2.5 Flash
+
+## Logs
+
+**Full text Logs** are avalaible in the pdf `Raw_Logs.pdf` <br>
+**Sample Outputs Photos** are avalaible in the pdf `Final_outputs.pdf` <br>
+
+- The ground truths images were take on DataGrip on the SQLite database
+  **Raw SQL** checks that were run are in the file `console_logs.sql` <br>
