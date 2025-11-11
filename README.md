@@ -102,3 +102,11 @@ python test_agent.py
 - The ground truths images were taken on DataGrip on the SQLite database <br>
 
 **Raw SQL** checks that were run are in the file `console_logs.sql` <br>
+
+The following is a sample run in interactive mode for the command -> "How many women are in the database ?" <br>
+
+![alt text](static/image.png)
+![alt text](static/image-1.png)
+
+Ground Truth: <br>
+![alt text](static/image-2.png)
