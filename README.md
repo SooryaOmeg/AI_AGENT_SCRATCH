@@ -99,5 +99,5 @@ python test_agent.py
 **Full text Logs** are avalaible in the pdf `Raw_Logs.pdf` <br>
 **Sample Outputs Photos** are avalaible in the pdf `Final_outputs.pdf` <br>
 
-- The ground truths images were take on DataGrip on the SQLite database
+- The ground truths images were take on DataGrip on the SQLite database <br>
   **Raw SQL** checks that were run are in the file `console_logs.sql` <br>
