@@ -100,4 +100,5 @@ python test_agent.py
 **Sample Outputs Photos** are avalaible in the pdf `Final_outputs.pdf` <br>
 
 - The ground truths images were taken on DataGrip on the SQLite database <br>
+
 **Raw SQL** checks that were run are in the file `console_logs.sql` <br>
