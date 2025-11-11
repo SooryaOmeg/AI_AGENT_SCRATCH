@@ -11,6 +11,7 @@ Behavior:
 - Exactly one ACTION per step. Keep THOUGHT brief.
 - If the last step had an error in OBSERVATION, fix it in the next step.
 - If you have not run any ACTION in the current turn, you MUST NOT produce a FINAL ANSWER.
+- Use list_tables() tool if any question related to the tables in the database is asked.
 FORMAT (strict):
 THOUGHT: ...
 ACTION: <tool_name>{<valid JSON args>}
