@@ -5,6 +5,8 @@ from agent import SQLAgent
 from dotenv import load_dotenv
 import time
 from colorama import Fore, Style, init
+from utils import retry_with_backoff, log_message
+
 init(autoreset=True)
 
 
@@ -35,25 +37,28 @@ def get_gemini_client():
     
     def complete(prompt: str) -> str:
         """
-        Send prompt to Gemini and get response
-        
-        Args:
-            prompt: The prompt to send to Gemini
-        
-        Returns:
-            The text response from Gemini
+        Send prompt to Gemini and get response with retry/backoff for rate limits/transient errors.
         """
-        try:
-            response = model.generate_content(
+        def _call():
+            return model.generate_content(
                 prompt,
                 generation_config=genai.types.GenerationConfig(
-                    temperature=0,  # Deterministic outputs
+                    temperature=0,          # Deterministic outputs
                     max_output_tokens=2048,
                 )
             )
+
+        try:
+            # Retries on any exception (incl. HTTP 429/5xx); tweak attempts/delay as needed
+            response = retry_with_backoff(
+                func=_call,
+                max_retries=5,          # e.g., 1s → 2s → 4s → 8s → 16s
+                initial_delay=1.0
+            )
             return response.text
         except Exception as e:
-            print(f"Error calling Gemini API: {e}")
+            # Final failure after retries — log and bubble up
+            log_message(f"Gemini call failed after retries: {e}", level="ERROR")
             raise
     
     return complete
@@ -70,6 +75,7 @@ def main():
     try:
         llm_complete = get_gemini_client()
         print(f"{Fore.GREEN}✓ Gemini API initialized successfully{Style.RESET_ALL}")
+        print(f"{Fore.GREEN}✓ Gemini API initialized successfully (with retry/backoff){Style.RESET_ALL}")
     except Exception as e:
         print(f"{Fore.RED}✗ Failed to initialize Gemini: {e}{Style.RESET_ALL}")
         return
@@ -83,16 +89,14 @@ def main():
     queries = [
         # "What tables are in the database?",
         "Describe the sample table",
-        "Describe the sample table",
-        "Describe the sample table",
         # "How many rows are in the sample table?",
         # "Show me the first 5 rows from the sample table",
         # "What are the column names in the sample table?",
         # "List all unique cities in the sample table",
-        # "How many women are in the database ?",
+        "How many women are in the database ?",
         # "What percentage of people have credit cards ?",
         # "How many first names start with 'A' ?",
-        # "What is the most popular profession ?",
+        "What is the most popular profession ?",
         "What is the sum of all ids in the sample table ?",
         "How many Brickmason have a Ford car?"
     ]

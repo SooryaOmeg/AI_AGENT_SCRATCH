@@ -341,7 +341,7 @@ def log_message(message: str, level: str = "INFO") -> None:
 
 
 # Optional: Add retry logic for LLM API calls
-def retry_with_backoff(func, max_retries: int = 3, initial_delay: float = 1.0):
+def retry_with_backoff(func, max_retries: int = 4, initial_delay: float = 1.0):
     """
     Retry a function with exponential backoff.
     
@@ -374,7 +374,7 @@ def retry_with_backoff(func, max_retries: int = 3, initial_delay: float = 1.0):
             if attempt < max_retries - 1:
                 log_message(f"Retrying in {delay} seconds...", level="INFO")
                 time.sleep(delay)
-                delay *= 2  # Exponential backoff
+                delay *= 4  # Exponential backoff
     
     # All retries failed
     raise last_exception
